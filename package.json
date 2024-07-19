@@ -1,0 +1,57 @@
+{
+  "name": "jsonxmlgridviewer",
+  "displayName": "Json and Xml Grid Viewer",
+  "description": "An extension to be able to view json and xml in a grid format",
+  "version": "0.0.4",
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "preview": true,
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "json",
+    "xml",
+    "json viewer",
+    "xml viewer"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "jsonXmlGridViewer.jsonXmlGridViewer",
+        "title": "Json Xml Grid Viewer"
+      }
+    ]
+  },
+  "publisher": "EddilbertMacharia",
+  "repository": "https://github.com/eddmash/jsonxml-grid-viewer",
+  "icon": "resources/logo.png",
+  "scripts": {
+    "install:all": "npm install && cd jsonxmlgrid && npm install",
+    "start:jsonxmlgrid": "cd jsonxmlgrid && npm run start",
+    "build:jsonxmlgrid": "cd jsonxmlgrid && npm run build",
+    "test:jsonxmlgrid": "cd jsonxmlgrid && npm run test",
+    "publish": "npm run build:jsonxmlgrid && vsce publish",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.91.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {}
+}

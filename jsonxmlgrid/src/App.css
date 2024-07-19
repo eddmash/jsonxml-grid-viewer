@@ -1,0 +1,12 @@
+table.data, table.data table {
+  border-spacing: 0;
+}
+table.data th, table.data td {
+  padding: 4px 5px;
+  border: 1px solid var(--vscode-panel-border);
+  white-space: nowrap;
+}
+
+table.data td.fieldName{
+  vertical-align: top;
+}
