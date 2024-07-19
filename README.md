@@ -14,7 +14,7 @@ how its presented on the ui.
     * [Linux](http://code.visualstudio.com/docs/languages/markdown): `Ctrl+Shift+P`
     * [MaxOs](http://code.visualstudio.com/docs/languages/markdown): `⇧+⌘+P`
 
-![gif](https://github.com/Tylerasa/react-setstate/raw/main/assets/gif.gif)
+![gif](https://raw.githubusercontent.com/eddmash/jsonxml-grid-viewer/main/resources/usage.gif)
 
 
 ### Installation
