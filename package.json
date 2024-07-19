@@ -2,7 +2,7 @@
   "name": "jsonxmlgridviewer",
   "displayName": "Json and Xml Grid Viewer",
   "description": "An extension to be able to view json and xml in a grid format",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.91.0"
   },

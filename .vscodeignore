@@ -13,4 +13,6 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+resources/
+!resources/logo.png
 .fuse*
