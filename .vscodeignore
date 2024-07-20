@@ -14,5 +14,6 @@ vsc-extension-quickstart.md
 **/*.ts
 **/.vscode-test.*
 resources/
-!resources/logo.png
+!resources/*.png
+!resources/*.svg
 .fuse*

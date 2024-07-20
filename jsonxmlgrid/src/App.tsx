@@ -30,11 +30,7 @@ function App() {
     <div className="App">
 
       {data && (
-        <table className="data">
-          {
-            Object.keys(data).map(key => <DataField field={key} value={data[key]} />)
-          }
-        </table>
+        <DataField label='root' value={data}/>
       )}
     </div>
   );

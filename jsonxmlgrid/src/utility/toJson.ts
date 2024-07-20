@@ -1,21 +1,31 @@
 import { XMLParser } from "fast-xml-parser";
 
-export function smartJsonConverter(input: { content: any, fileName: string }) {
-    console.log("co", input)
-    if (input.fileName.endsWith("json")) {
-        return JSON.parse(input.content);
-    }
-    if (input.fileName.endsWith("xml")) {
-        return xmlparse(input.content);
-    }
+/**
+ * Based on the language of the content. parse the content
+ * @param input 
+ * @returns 
+ */
+export function smartJsonConverter(input: { content: any, languageId: string }) {
 
-    return "Only support XML/JSON";
+    switch (input.languageId) {
+        case "xml": {
+            return xmlparse(input.content);
+        }
+        case "json": {
+            return JSON.parse(input.content);
+        }
+        default: {
+            return "Only support XML/JSON";
+        }
+    }
 }
 
 function xmlparse(content: any) {
     // const parser = new DOMParser();
     // const xmlDoc = parser.parseFromString(content, 'application/xml');
     // return xml2json(xmlDoc);
-    const parser = new XMLParser();
+    const parser = new XMLParser({
+        ignoreAttributes: false
+    });
     return parser.parse(content);
 }

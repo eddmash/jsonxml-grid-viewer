@@ -1,12 +1,31 @@
-table.data, table.data table {
+table.data,
+table.data table {
   border-spacing: 0;
+  display: "table";
 }
-table.data th, table.data td {
+
+table.data th,
+table.data td {
   padding: 4px 5px;
   border: 1px solid var(--vscode-panel-border);
   white-space: nowrap;
 }
 
-table.data td.fieldName{
+table.data td,
+table.data table td {
   vertical-align: top;
+}
+
+table.data .field-name,
+table.data .nested-value {
+  /* color: var(--vscode-editorBracketHighlight-foreground2); */
+  /* color: var(--vscode-editorGhostText-foreground); */
+  color: var(--vscode-editor-foreground);
+  /* color: var(--vscode-textPreformat-foreground); */
+  /* color: var(--vscode-editor-foldPlaceholderForeground); */
+  /* font-weight: 500; */
+}
+
+table.data .nested-value {
+  font-weight: 500;
 }

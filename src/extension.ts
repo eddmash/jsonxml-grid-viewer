@@ -14,21 +14,26 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log(`Congratulations, your extension "jsonXmlGridViewer" is now active! ${context.extensionPath}`);
 
+
+
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('jsonXmlGridViewer.jsonXmlGridViewer', () => {
+	let panel: vscode.WebviewPanel | undefined = undefined
+	context.subscriptions.push(vscode.commands.registerCommand('jsonXmlGridViewer.view', () => {
+
+		let editor = vscode.window.activeTextEditor;
+		console.log(editor?.document.uri);
+		if (!editor) {
+			return; // No open text editor
+		}
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 		// vscode.window.showInformationMessage('Hello World from Json and Xml Grid Viewer!');
 		// Create and show a new webview
 		console.log("Rendered on=", vscode.window.activeTextEditor?.viewColumn);
 
-		let editor = vscode.window.activeTextEditor;
-		if (!editor) {
-			return; // No open text editor
-		}
-		const panel = vscode.window.createWebviewPanel(
+		panel = vscode.window.createWebviewPanel(
 			'jsonXmlGridViewer', // Identifies the type of the webview. Used internally
 			'Json Xml Grid Viewer', // Title of the panel displayed to the user
 			vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
@@ -42,25 +47,47 @@ export function activate(context: vscode.ExtensionContext) {
 				],
 			} // Webview options. More on these later.
 		);
-
-
 		// Render html of webview here
 		panel.webview.html = createWebviewHTML(panel, context);
 		panel.webview.onDidReceiveMessage((message: Message) => {
 			switch (message.event) {
 				case "OnLoad":
-					panel.webview.postMessage({
-						event: "OnData",
-						message: { content: editor.document.getText(), fileName: editor.document.fileName }
-					} as Message);
+					if (panel) {
+						postData({
+							event: "OnData",
+							message: { content: editor.document.getText(), languageId: editor.document.languageId }
+						}, panel);
+					}
 					return;
 			}
 		});
+	}));
 
+	vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor | undefined) => {
+		if (panel && editor) {
+			panel.webview.html = createWebviewHTML(panel, context);
+			postData({
+				event: "OnData",
+				message: { content: editor.document.getText(), languageId: editor.document.languageId }
+			}, panel);
 
+		}
 	});
+	// vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor | undefined) => {
+	// 	console.log("window.onDidChangeActiveTextEditor: ", editor?.document.getText());
+	// 	postData(editor?.document.getText(), editor, panel);
+	// });
+	vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+		let editor = vscode.window.activeTextEditor;
+		if (panel && editor) {
+			panel.webview.html = createWebviewHTML(panel, context);
+			postData({
+				event: "OnData",
+				message: { content: editor.document.getText(), languageId: editor.document.languageId }
+			}, panel);
 
-	context.subscriptions.push(disposable);
+		}
+	});
 }
 
 function getNonce() {
@@ -113,5 +140,11 @@ function createWebviewHTML(panel: vscode.WebviewPanel, context: vscode.Extension
 
 // This method is called when your extension is deactivated
 export function deactivate() { }
+
+
+function postData(message: Message, panel: vscode.WebviewPanel) {
+	console.log("Posting message", message);
+	panel.webview.postMessage(message);
+}
 
 

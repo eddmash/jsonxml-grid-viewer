@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { DataField } from "./DataField";
 
 export function ArrayDataField(props: {
-    field: string
+    field?: string
+    label: string
     value: any
     parent?: string
 }) {
-    const { field, value, parent } = props
+    const { field, value, parent, label } = props
     const fieldPath = `${parent ? parent + '.' : ''}${field}`
 
     const [arrayFields, setArrayFields] = useState<any[]>([]);
@@ -25,20 +26,29 @@ export function ArrayDataField(props: {
         setShow(!show)
     }
 
-    return (<><div onClick={OnShow} id={fieldPath}>Array {!show ? `[ + ]` : `[ -`}</div>
-        {show && (<div id={`${fieldPath}-data`} className="wrapper">
+    return (<>
+        <div className="nested-value" onClick={OnShow}>{!show ? `[+]` : `[-]`} {label} {`[${value.length}]`} </div>
+        {show && (<div className="wrapper list">
             <table >
-                <tr className="columns" >
-                    {arrayFields.map(key => {
-                        return (<td style={{}}>{key}</td>);
-                    })}
-                </tr>
-                {value.map((tRecord: any) => {
+                <thead>
+                    <tr className="columns" >
+                        <td className="field-name">filter</td>
+                        {arrayFields.map(key => {
+                            return (<td className="field-name">{key}</td>);
+                        })}
+                    </tr>
+                </thead>
+                {value.map((tRecord: any, roidx: number) => {
                     return (
                         <tr className="data">
+                            <td>{roidx + 1}</td>
                             {arrayFields.map((col: string, index: number) => {
-                                return (<td style={{}}>
-                                    <DataField parent={`${fieldPath}[${index}]`} field={col} value={tRecord[col]} onlyValue={true}
+                                return (<td>
+                                    <DataField parent={`${fieldPath}[${index}]`}
+                                        field={col}
+                                        label={col}
+                                        value={tRecord[col]}
+                                        onlyValue={true}
                                         fieldIndex={index} />
                                 </td>);
                             })}

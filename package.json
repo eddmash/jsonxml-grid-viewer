@@ -18,17 +18,48 @@
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
-  "contributes": {
+  "contributes": { 
+    "views": {
+      "explorer": [
+        {
+          "id": "jsonxmlgrid",
+          "name": "jsonxmlongrid",
+          "icon": "resources/icon-512.svg",
+          "contextualTitle": "Json/Xml view on a Grid",
+          "when": "resourceLangId == json || resourceLangId == xml"
+        }
+      ]
+    },
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceLangId == json || resourceLangId == xml",
+          "command": "jsonXmlGridViewer.view",
+          "alt": "jsonXmlGridViewer.view",
+          "icon": "resources/icon-512.svg"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "resourceLangId == json || resourceLangId == xml",
+          "command": "jsonXmlGridViewer.view",
+          "alt": "jsonXmlGridViewer.view",
+          "group": "navigation",
+          "icon": "resources/icon-512.png"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "jsonXmlGridViewer.jsonXmlGridViewer",
-        "title": "Json Xml Grid Viewer"
+        "command": "jsonXmlGridViewer.view",
+        "title": "Json/Xml view on a grid",
+          "icon": "resources/icon-512.png"
       }
     ]
   },
   "publisher": "EddilbertMacharia",
   "repository": "https://github.com/eddmash/jsonxml-grid-viewer",
-  "icon": "resources/logo.png",
+  "icon": "resources/icon-512.png",
   "scripts": {
     "install:all": "npm install && cd jsonxmlgrid && npm install",
     "start:jsonxmlgrid": "cd jsonxmlgrid && npm run start",
