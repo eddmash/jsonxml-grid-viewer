@@ -4,13 +4,13 @@
   "private": true,
   "dependencies": {
     "@vscode/webview-ui-toolkit": "^1.4.0",
+    "@vscode/codicons": "^0.0.36",
     "fast-xml-parser": "^4.4.0",
     "jsonpath": "^1.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@vscode/codicons": "^0.0.36",
     "@types/jsonpath": "^0.2.4",
     "@types/node": "^16.18.102",
     "@types/react": "^18.3.3",

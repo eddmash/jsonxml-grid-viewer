@@ -19,7 +19,11 @@ export function smartJsonConverter(input: { content: any, languageId: string }) 
         }
     }
 }
-
+/**
+ * Parse xml
+ * @param content 
+ * @returns 
+ */
 function xmlparse(content: any) {
     // const parser = new DOMParser();
     // const xmlDoc = parser.parseFromString(content, 'application/xml');
@@ -28,4 +32,14 @@ function xmlparse(content: any) {
         ignoreAttributes: false
     });
     return parser.parse(content);
+}
+
+/**
+ * Determine if item is a complex value.
+ * @param val 
+ * @returns 
+ */
+export function isComplex(val: any) {
+
+    return val && ["Array", "Object"].includes(val.constructor.name)
 }

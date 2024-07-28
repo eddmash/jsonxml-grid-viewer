@@ -43,7 +43,8 @@ export function activate(context: vscode.ExtensionContext) {
 				// Restrict the webview to only load resources from the `out` and `webview-ui/build` directories
 				localResourceRoots: [
 					vscode.Uri.joinPath(extensionUri, "out"),
-					vscode.Uri.joinPath(extensionUri, "jsonxmlgrid", "build")
+					vscode.Uri.joinPath(extensionUri, "jsonxmlgrid", "build"),
+					vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/codicons', 'dist')
 				],
 			} // Webview options. More on these later.
 		);
@@ -109,11 +110,12 @@ function createWebviewHTML(panel: vscode.WebviewPanel, context: vscode.Extension
 	// Set URI to be the path to bundle
 	const stylesUri: vscode.Uri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri,
 		...['jsonxmlgrid', 'build', 'static', 'css', 'main.css']));
+	const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri,
+		'node_modules', '@vscode', 'codicons', 'dist', 'codicon.css'));
 
 	// Set webview URI to pass into html script
 	const scriptURI: vscode.Uri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, ...['jsonxmlgrid',
 		'build', 'static', 'js', 'main.js']));
-
 	return `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -125,10 +127,11 @@ function createWebviewHTML(panel: vscode.WebviewPanel, context: vscode.Extension
     <meta name="theme-color" content="#000000" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; style-src ${panel.webview.cspSource}; script-src 'nonce-${nonce}';"
+      content="default-src 'none'; style-src ${panel.webview.cspSource};font-src ${panel.webview.cspSource}; script-src 'nonce-${nonce}';"
     />
     <link rel="stylesheet" type="text/css" href="${stylesUri}" />
-    <title>Hello World</title>
+	<link href="${codiconsUri}" rel="stylesheet" />
+    <title>JsonXml Grid Viewer</title>
   </head>
   <body>
     <div id="root"></div>

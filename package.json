@@ -2,7 +2,7 @@
   "name": "jsonxmlgridviewer",
   "displayName": "Json and Xml Grid Viewer",
   "description": "An extension to be able to view json and xml in a grid format",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.91.0"
   },
@@ -18,7 +18,7 @@
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
-  "contributes": { 
+  "contributes": {
     "views": {
       "explorer": [
         {
@@ -53,7 +53,7 @@
       {
         "command": "jsonXmlGridViewer.view",
         "title": "Json/Xml view on a grid",
-          "icon": "resources/icon-512.png"
+        "icon": "resources/icon-512.png"
       }
     ]
   },
@@ -82,7 +82,9 @@
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0",
     "eslint": "^8.57.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "@vscode/codicons": "^0.0.36"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }

@@ -1,59 +1,68 @@
-import { useEffect, useState } from "react";
-import { DataField } from "./DataField";
+import React, { useEffect, useState } from "react";
+import { DataField, DataFieldTypeProps } from "./DataField";
+import { isComplex } from "../utility/toJson";
 
-export function ArrayDataField(props: {
-    field?: string
-    label: string
-    value: any
-    parent?: string
-}) {
-    const { field, value, parent, label } = props
+export function ArrayDataField(props: DataFieldTypeProps) {
+    const { field, value, parent, label, renderLayout } = props
     const fieldPath = `${parent ? parent + '.' : ''}${field}`
 
     const [arrayFields, setArrayFields] = useState<any[]>([]);
+    const [data, setData] = useState<any[]>([]);
     const [show, setShow] = useState<boolean>(false);
-
+    useEffect(function () { console.log("ArrayDataField:Onload inside") }, [])
 
     useEffect(function () {
-        if (value) {
-            const keys: any[] = value.flatMap((ob: any) => Object.keys(ob));
-            const x = new Set<any[]>(keys);
-            setArrayFields(Array.from(x))
+        refreshData(value);
+    }, [value]);
+
+    const refreshData = (val: any) => {
+        console.log("ArrayDataField: data", val)
+        const tmp = value || [];
+        if (Array.isArray(tmp)) {
+            const keys: any[] = tmp.flatMap((ob: any) => Object.keys(ob));
+            setArrayFields(Array.from(new Set<any[]>(keys)))
+            setData(tmp)
         }
-    }, [props.field]);
+    }
 
     const OnShow = (e: any) => {
         setShow(!show)
     }
 
     return (<>
-        <div className="nested-value" onClick={OnShow}>{!show ? `[+]` : `[-]`} {label} {`[${value.length}]`} </div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className="nested-value" onClick={OnShow}>{!show ? `[+]` : `[-]`} {label} {`[${value.length}]`}</div>
+        </div>
+
         {show && (<div className="wrapper list">
-            <table >
-                <thead>
+            <table className="data">
+                {isComplex(data[0]) && (<thead>
                     <tr className="columns" >
-                        <td className="field-name">filter</td>
+                        <td className="field-name">#</td>
                         {arrayFields.map(key => {
-                            return (<td className="field-name">{key}</td>);
+                            return (<td className="field-name" key={key}>{key}</td>);
                         })}
                     </tr>
-                </thead>
-                {value.map((tRecord: any, roidx: number) => {
-                    return (
-                        <tr className="data">
-                            <td>{roidx + 1}</td>
-                            {arrayFields.map((col: string, index: number) => {
-                                return (<td>
-                                    <DataField parent={`${fieldPath}[${index}]`}
-                                        field={col}
-                                        label={col}
-                                        value={tRecord[col]}
-                                        onlyValue={true}
-                                        fieldIndex={index} />
-                                </td>);
-                            })}
-                        </tr>)
-                })}
+                </thead>)}
+                <tbody>
+                    {data.map((tRecord: any, roidx: number) => {
+                        return (
+                            <tr key={roidx}>
+                                <td>{roidx + 1}</td>
+                                {!isComplex(tRecord) && (<td>{`${tRecord}`}</td>)}
+                                {isComplex(tRecord) && arrayFields.map((col: string, index: number) => {
+                                    return (<td key={`${roidx}-${index}`}>
+                                        <DataField parent={`${fieldPath}[${index}]`}
+                                            field={col}
+                                            label={col}
+                                            value={tRecord[col]}
+                                            onlyValue={true}
+                                            fieldIndex={index} />
+                                    </td>);
+                                })}
+                            </tr>)
+                    })}
+                </tbody>
             </table>
         </div>)}
     </>)
