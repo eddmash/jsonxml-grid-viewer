@@ -4,6 +4,8 @@ src/**
 jsonxmlgrid/**
 !jsonxmlgrid/build/static/**/*.js
 !jsonxmlgrid/build/static/**/*.css
+!jsonxmlgrid/node_modules/@vscode/codicons/dist/*.css
+!jsonxmlgrid/node_modules/@vscode/codicons/dist/*.ttf
 node_modules
 .gitignore
 .yarnrc

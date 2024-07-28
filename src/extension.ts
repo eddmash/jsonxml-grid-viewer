@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 				localResourceRoots: [
 					vscode.Uri.joinPath(extensionUri, "out"),
 					vscode.Uri.joinPath(extensionUri, "jsonxmlgrid", "build"),
-					vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/codicons', 'dist')
+					vscode.Uri.joinPath(extensionUri, 'jsonxmlgrid', 'node_modules', '@vscode', 'codicons', 'dist')
 				],
 			} // Webview options. More on these later.
 		);
@@ -111,7 +111,7 @@ function createWebviewHTML(panel: vscode.WebviewPanel, context: vscode.Extension
 	const stylesUri: vscode.Uri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri,
 		...['jsonxmlgrid', 'build', 'static', 'css', 'main.css']));
 	const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri,
-		'node_modules', '@vscode', 'codicons', 'dist', 'codicon.css'));
+		'jsonxmlgrid', 'node_modules', '@vscode', 'codicons', 'dist', 'codicon.css'));
 
 	// Set webview URI to pass into html script
 	const scriptURI: vscode.Uri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, ...['jsonxmlgrid',
